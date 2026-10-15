@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_helper/l10n/app_localizations.dart';
 import '../../providers/audio_provider.dart';
-import '../../ffi/dsp_bridge.dart';
+import '../../ffi/dsp_bridge.dart' hide ChordResult;
 import '../../domain/chord.dart';
-import 'dart:math' as math;
 
 class ChordPage extends ConsumerWidget {
   const ChordPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final chordState = ref.watch(chordProvider);
     final result = chordState.result;
 

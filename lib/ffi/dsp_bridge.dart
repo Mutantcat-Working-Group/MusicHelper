@@ -1,6 +1,7 @@
 import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:ffi/ffi.dart' as ffi;
 
 /// FFI 绑定到 C++ DSP 库
 class DspBridge {
@@ -58,49 +59,45 @@ class DspBridge {
   void initialize(int sampleRate) => _dspInit(sampleRate);
 
   double detectPitch(Float32List samples, int sampleCount, int sampleRate) {
-    final ptr = _calloc(samples.length);
+    final ptr = ffi.calloc<Float>(samples.length);
     try {
       final list = ptr.asTypedList(samples.length);
       list.setAll(0, samples);
       return _mpmDetectPitch(ptr, sampleCount, sampleRate);
     } finally {
-      _free(ptr);
+      ffi.calloc.free(ptr);
     }
   }
 
   MultiPitchResultData detectMultiplePitches(
       Float32List samples, int sampleCount, int sampleRate) {
-    final ptr = _calloc(samples.length);
+    final ptr = ffi.calloc<Float>(samples.length);
     try {
       final list = ptr.asTypedList(samples.length);
       list.setAll(0, samples);
       final resultPtr = _detectMultiplePitches(ptr, sampleCount, sampleRate);
       final result = MultiPitchResultData.fromNative(resultPtr.ref);
-      _free(resultPtr);
+      ffi.calloc.free(resultPtr);
       return result;
     } finally {
-      _free(ptr);
+      ffi.calloc.free(ptr);
     }
   }
 
   ChordResultData detectChord(
       Float32List samples, int sampleCount, int sampleRate) {
-    final ptr = _calloc(samples.length);
+    final ptr = ffi.calloc<Float>(samples.length);
     try {
       final list = ptr.asTypedList(samples.length);
       list.setAll(0, samples);
       final resultPtr = _detectChord(ptr, sampleCount, sampleRate);
       final result = ChordResultData.fromNative(resultPtr.ref);
-      _free(resultPtr);
+      ffi.calloc.free(resultPtr);
       return result;
     } finally {
-      _free(ptr);
+      ffi.calloc.free(ptr);
     }
   }
-
-  static Pointer<T> _calloc<T extends NativeType>(int count) =>
-      calloc<T>(count);
-  static void _free(Pointer ptr) => calloc.free(ptr);
 }
 
 // FFI 结构体定义

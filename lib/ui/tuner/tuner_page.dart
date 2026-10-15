@@ -6,7 +6,6 @@ import '../../providers/audio_provider.dart';
 import '../../providers/settings_provider.dart';
 import '../../domain/tuning.dart';
 import '../../domain/note.dart';
-import 'package:flutter/material.dart' as material show Colors;
 
 /// 调音器主页面
 class TunerPage extends ConsumerWidget {
@@ -14,7 +13,7 @@ class TunerPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final tunerState = ref.watch(tunerProvider);
     final tolerance = ref.watch(toleranceProvider);
     final selectedTuningId = ref.watch(selectedTuningIdProvider);

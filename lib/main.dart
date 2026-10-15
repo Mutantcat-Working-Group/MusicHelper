@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:music_helper/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app.dart';
 

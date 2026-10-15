@@ -19,7 +19,7 @@ class AudioService {
     final stream = await _recorder.startStream(
       const RecordConfig(
         sampleRate: AudioConfig.sampleRate,
-        channelCount: 1,
+        numChannels: 1,
         encoder: AudioEncoder.pcm16bits,
       ),
     );

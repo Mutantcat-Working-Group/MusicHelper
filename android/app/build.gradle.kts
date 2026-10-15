@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         applicationId = "com.mutantcat.music_helper"
-        minSdk = 21
+        minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -28,6 +28,14 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("debug")
+        }
+    }
+
+    // 编译 native DSP 库
+    externalNativeBuild {
+        cmake {
+            path = file("../../native/dsp/CMakeLists.txt")
+            version = "3.22.1"
         }
     }
 }
