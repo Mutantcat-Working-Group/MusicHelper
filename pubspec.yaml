@@ -27,7 +27,26 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
   uses-material-design: true
   generate: true
+
+# 应用图标:统一使用根目录的 icon.png 生成各平台图标。
+# Android 额外生成 adaptive icon:foreground 用原图、background 用图标自身的深灰底色,
+# 两者合成后与原图一致。foreground inset 设为 0 —— 原图的拨片图案最远点距中心 33.5%,
+# 恰好落在 72dp 圆形 mask 的安全半径(33.3%)内,不需要再收缩。
+#
+# 注意:重新生成后需检查 ios/Runner.xcodeproj/project.pbxproj。
+# flutter_launcher_icons 0.14.4 有个 bug(ios.dart 用 contains('ASSETCATALOG') 整行替换),
+# 会把 ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS 从 YES 误改成 AppIcon,
+# 该属性合法值只有 YES/NO,需手动改回 YES。
+flutter_launcher_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "icon.png"
+  min_sdk_android: 21
+  adaptive_icon_background: "#434343"
+  adaptive_icon_foreground: "icon.png"
+  adaptive_icon_foreground_inset: 0
