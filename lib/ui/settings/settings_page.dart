@@ -385,9 +385,9 @@ class SettingsPage extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 12),
-            Text(
+            const Text(
               'MusicHelper v1.0.0',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 color: Color(0xFF8892B0),
               ),

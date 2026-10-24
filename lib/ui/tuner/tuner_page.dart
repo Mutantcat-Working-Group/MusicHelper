@@ -88,7 +88,7 @@ class TunerPage extends ConsumerWidget {
           items: allTunings.map((t) {
             return DropdownMenuItem(
               value: t.id,
-              child: Text(_getTuningName(context, t.nameKey)),
+              child: Text(_getTuningName(l10n, t.nameKey)),
             );
           }).toList(),
           onChanged: (value) {
@@ -101,20 +101,30 @@ class TunerPage extends ConsumerWidget {
     );
   }
 
-  String _getTuningName(BuildContext context, String nameKey) {
-    // 临时映射，后续用 i18n
-    final map = {
-      'tuning_standard_guitar': '标准吉他 EADGBE',
-      'tuning_half_step_down': '降半音 EbAbDbGbBbEb',
-      'tuning_open_d': 'Open D 调弦',
-      'tuning_open_g': 'Open G 调弦',
-      'tuning_standard_bass': '标准贝斯 EADG',
-      'tuning_five_string_bass': '5弦贝斯 BEADG',
-      'tuning_standard_ukulele': '尤克里里 GCEA',
-      'tuning_standard_violin': '小提琴 GDAE',
-      'tuning_standard_cello': '大提琴 CGDA',
-    };
-    return map[nameKey] ?? nameKey;
+  /// 调弦显示名:从 l10n 读取,避免硬编码中文导致英文界面显示中文。
+  String _getTuningName(AppLocalizations l10n, String nameKey) {
+    switch (nameKey) {
+      case 'tuning_standard_guitar':
+        return l10n.tuning_standard_guitar;
+      case 'tuning_half_step_down':
+        return l10n.tuning_half_step_down;
+      case 'tuning_open_d':
+        return l10n.tuning_open_d;
+      case 'tuning_open_g':
+        return l10n.tuning_open_g;
+      case 'tuning_standard_bass':
+        return l10n.tuning_standard_bass;
+      case 'tuning_five_string_bass':
+        return l10n.tuning_five_string_bass;
+      case 'tuning_standard_ukulele':
+        return l10n.tuning_standard_ukulele;
+      case 'tuning_standard_violin':
+        return l10n.tuning_standard_violin;
+      case 'tuning_standard_cello':
+        return l10n.tuning_standard_cello;
+      default:
+        return nameKey;
+    }
   }
 
   Widget _buildStringIndicator(
@@ -253,10 +263,10 @@ class TunerDial extends StatelessWidget {
                   ),
                 ),
               ] else ...[
-                Text(
+                const Text(
                   '—',
                   style: TextStyle(
-                    color: const Color(0xFF8892B0),
+                    color: Color(0xFF8892B0),
                     fontSize: 96,
                     fontWeight: FontWeight.w300,
                   ),
@@ -378,6 +388,7 @@ class _DialPainter extends CustomPainter {
   bool shouldRepaint(covariant _DialPainter oldDelegate) {
     return oldDelegate.centsDeviation != centsDeviation ||
         oldDelegate.isActive != isActive ||
-        oldDelegate.color != color;
+        oldDelegate.color != color ||
+        oldDelegate.tolerance != tolerance;
   }
 }

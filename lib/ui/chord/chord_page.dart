@@ -31,10 +31,10 @@ class ChordPage extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
+          const Icon(
             Icons.piano,
             size: 64,
-            color: const Color(0xFF8892B0),
+            color: Color(0xFF8892B0),
           ),
           const SizedBox(height: 16),
           Text(
@@ -55,12 +55,19 @@ class ChordPage extends ConsumerWidget {
         ? qualities[result.qualityIndex]
         : ChordQuality.major;
 
+    // 把 FFI 传来的 detectedNotes(每个音级的强度)转成 domain 模型要的 Map
+    final detectedNotes = <int, double>{};
+    for (int i = 0; i < result.detectedNotes.length && i < 12; i++) {
+      final intensity = result.detectedNotes[i];
+      if (intensity > 0.05) detectedNotes[i] = intensity;
+    }
+
     final chordResult = ChordResult(
       rootIndex: result.rootIndex,
       quality: quality,
       bassIndex: result.bassIndex,
       confidence: result.confidence,
-      detectedNotes: {},
+      detectedNotes: detectedNotes,
       chroma: result.chroma,
     );
 
@@ -99,6 +106,14 @@ class ChordPage extends ConsumerWidget {
                 color: Color(0xFF00D4FF),
               ),
             ),
+            const SizedBox(height: 4),
+            Text(
+              _getChordQualityName(l10n, chord.quality),
+              style: const TextStyle(
+                fontSize: 16,
+                color: Color(0xFF8892B0),
+              ),
+            ),
             if (chord.isInversion) ...[
               const SizedBox(height: 8),
               Text(
@@ -122,6 +137,50 @@ class ChordPage extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  /// 和弦类型显示名:从 l10n 读取(chord_* 系列 key)
+  String _getChordQualityName(AppLocalizations l10n, ChordQuality quality) {
+    switch (quality.nameKey) {
+      case 'chord_major':
+        return l10n.chord_major;
+      case 'chord_minor':
+        return l10n.chord_minor;
+      case 'chord_augmented':
+        return l10n.chord_augmented;
+      case 'chord_diminished':
+        return l10n.chord_diminished;
+      case 'chord_dominant7':
+        return l10n.chord_dominant7;
+      case 'chord_major7':
+        return l10n.chord_major7;
+      case 'chord_minor7':
+        return l10n.chord_minor7;
+      case 'chord_minor7b5':
+        return l10n.chord_minor7b5;
+      case 'chord_diminished7':
+        return l10n.chord_diminished7;
+      case 'chord_sus2':
+        return l10n.chord_sus2;
+      case 'chord_sus4':
+        return l10n.chord_sus4;
+      case 'chord_major6':
+        return l10n.chord_major6;
+      case 'chord_minor6':
+        return l10n.chord_minor6;
+      case 'chord_dominant9':
+        return l10n.chord_dominant9;
+      case 'chord_major9':
+        return l10n.chord_major9;
+      case 'chord_minor9':
+        return l10n.chord_minor9;
+      case 'chord_add9':
+        return l10n.chord_add9;
+      case 'chord_minorAdd9':
+        return l10n.chord_minorAdd9;
+      default:
+        return quality.symbol;
+    }
   }
 
   Widget _buildConfidence(BuildContext context, AppLocalizations l10n, ChordResult chord) {
@@ -230,6 +289,43 @@ class ChordPage extends ConsumerWidget {
                 color: Color(0xFF8892B0),
               ),
             ),
+            // 实际检测到的音(来自 DSP 的 chroma 强度),与理论构成音对照
+            if (chord.detectedNotes.isNotEmpty) ...[
+              const SizedBox(height: 16),
+              Text(
+                l10n.detected_notes_label,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Color(0xFF8892B0),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: chord.detectedNotes.entries.map((e) {
+                  final isChordTone = chord.chordToneIndices.contains(e.key);
+                  return Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: isChordTone
+                          ? const Color(0xFF00E676).withValues(alpha: 0.12)
+                          : const Color(0xFF1E2A45),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      '${noteNames[e.key]} ${(e.value * 100).round()}%',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: isChordTone
+                            ? const Color(0xFF00E676)
+                            : const Color(0xFF8892B0),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
           ],
         ),
       ),

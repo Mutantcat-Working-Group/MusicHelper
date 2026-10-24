@@ -72,6 +72,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get notes_label => '构成音';
 
   @override
+  String get detected_notes_label => '检测到的音';
+
+  @override
   String get bass_note => '低音';
 
   @override

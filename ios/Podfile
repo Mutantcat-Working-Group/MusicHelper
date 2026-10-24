@@ -31,6 +31,11 @@ target 'Runner' do
   use_frameworks!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+
+  # 原生 DSP 库(C++):编成动态框架链接进 app,
+  # 这样 dart:ffi 的 DynamicLibrary.process() 才能解析到 mpm_detect_pitch 等符号。
+  pod 'MusicHelperDSP', :path => '..'
+
   target 'RunnerTests' do
     inherit! :search_paths
   end

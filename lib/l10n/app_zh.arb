@@ -21,6 +21,7 @@
   "inversion_label": "转位",
   "confidence_label": "置信度",
   "notes_label": "构成音",
+  "detected_notes_label": "检测到的音",
   "bass_note": "低音",
   "chroma_label": "Chroma 特征",
   "chord_major": "大三和弦",

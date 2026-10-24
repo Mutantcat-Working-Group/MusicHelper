@@ -6,8 +6,10 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-// 迭代基-2 FFT（Cooley-Tukey）
+// 迭代基-2 FFT(Cooley-Tukey)
 void fft(float* real, float* imag, int n) {
+    if (n <= 1) return;
+
     // 位反转
     for (int i = 1, j = 0; i < n; i++) {
         int bit = n >> 1;
@@ -46,7 +48,23 @@ void fft(float* real, float* imag, int n) {
 
 // 汉宁窗
 void hann_window(float* output, int n) {
+    if (n <= 1) {
+        if (n == 1) output[0] = 1.0f;
+        return;
+    }
     for (int i = 0; i < n; i++) {
         output[i] = 0.5f * (1.0f - cosf(2.0f * M_PI * (float)i / (float)(n - 1)));
     }
+}
+
+// 把任意长度的采样整理成长度 fft_size(2 的幂)的分析帧。
+// 样本不足时末尾补零,超出时取最新的一段。
+void prepare_analysis_frame(const float* samples, int sample_count, int fft_size, float* out) {
+    if (out == NULL || fft_size <= 0) return;
+    memset(out, 0, (size_t)fft_size * sizeof(float));
+    if (samples == NULL || sample_count <= 0) return;
+
+    int n = sample_count < fft_size ? sample_count : fft_size;
+    const float* src = samples + (sample_count - n); // 取最新的一段
+    memcpy(out, src, (size_t)n * sizeof(float));
 }

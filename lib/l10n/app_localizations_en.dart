@@ -73,6 +73,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notes_label => 'Notes';
 
   @override
+  String get detected_notes_label => 'Detected Notes';
+
+  @override
   String get bass_note => 'Bass';
 
   @override

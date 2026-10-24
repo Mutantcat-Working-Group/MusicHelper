@@ -27,11 +27,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: const Color(0xFF0A0E1A),
+        decoration: const BoxDecoration(
+          color: Color(0xFF0A0E1A),
           border: Border(
             top: BorderSide(
-              color: const Color(0xFF1E2A45),
+              color: Color(0xFF1E2A45),
               width: 1,
             ),
           ),

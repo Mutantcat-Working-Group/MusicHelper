@@ -23,3 +23,7 @@ set_target_properties(music_helper_dsp PROPERTIES
 
 # 链接数学库
 target_link_libraries(music_helper_dsp m)
+
+# DSP 是性能热点(每音频帧执行),即使 debug 构建也开启优化,
+# 否则未优化的 O(n^2) 自相关会让调音器明显卡顿。
+target_compile_options(music_helper_dsp PRIVATE -O2)

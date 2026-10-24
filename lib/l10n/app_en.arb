@@ -21,6 +21,7 @@
   "inversion_label": "Inversion",
   "confidence_label": "Confidence",
   "notes_label": "Notes",
+  "detected_notes_label": "Detected Notes",
   "bass_note": "Bass",
   "chroma_label": "Chroma Features",
   "chord_major": "Major",

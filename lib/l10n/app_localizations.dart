@@ -224,6 +224,12 @@ abstract class AppLocalizations {
   /// **'构成音'**
   String get notes_label;
 
+  /// No description provided for @detected_notes_label.
+  ///
+  /// In zh, this message translates to:
+  /// **'检测到的音'**
+  String get detected_notes_label;
+
   /// No description provided for @bass_note.
   ///
   /// In zh, this message translates to:
