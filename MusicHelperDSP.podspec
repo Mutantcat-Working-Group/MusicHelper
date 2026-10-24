@@ -15,10 +15,10 @@ The Runner target links this pod with `use_frameworks!`, so the library is
 built as a dynamic framework and its C symbols are resolvable from Dart via
 `DynamicLibrary.process()`.
   DESC
-  s.homepage         = 'https://github.com/mutantcat/music_helper'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Mutantcat' => 'dev@mutantcat.com' }
-  s.source           = { :http => 'https://github.com/mutantcat/music_helper' }
+  s.homepage         = 'https://github.com/Mutantcat-Working-Group/MusicHelper'
+  s.license          = { :type => 'GPL-3.0', :file => 'LICENSE' }
+  s.author           = 'Mutantcat'
+  s.source           = { :http => 'https://github.com/Mutantcat-Working-Group/MusicHelper' }
   s.documentation_url = 'https://pub.dev/packages/music_helper'
 
   s.ios.deployment_target = '13.0'
