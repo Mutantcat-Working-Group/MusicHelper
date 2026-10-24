@@ -14,14 +14,14 @@ dependencies:
   intl: any
   cupertino_icons: ^1.0.8
   flutter_riverpod: ^2.6.1
-  record: ^5.1.2
+  # 必须 >= 6.0.0:5.x 把 record_linux 限制在 <1.0.0(最高 0.7.2),
+  # 而 record_linux 0.7.2 没实现 record_platform_interface 1.x 起就有的
+  # startStream / hasPermission(request:),release 构建会直接编译失败。
+  # 6.x 改用 record_linux ^1.3.1,依赖集自洽。
+  record: ^6.2.1
   shared_preferences: ^2.3.4
   path_provider: ^2.1.5
   ffi: ^2.1.3
-
-dependency_overrides:
-  record_linux: 0.7.2
-  record_platform_interface: 1.6.0
 
 dev_dependencies:
   flutter_test:
